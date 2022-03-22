@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_app/screens/chat.dart';
 import 'package:chat_app/widgets/auth/auth_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,7 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
     String email,
     String password,
     String username,
-    File image,
+    File? image,
     bool isLogin,
   ) async {
     UserCredential userCredential;
@@ -33,6 +34,8 @@ class _AuthScreenState extends State<AuthScreen> {
           email: email,
           password: password,
         );
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const ChatScreen()));
       } else {
         userCredential = await _auth.createUserWithEmailAndPassword(
           email: email,
@@ -43,7 +46,7 @@ class _AuthScreenState extends State<AuthScreen> {
             .ref()
             .child('user_image')
             .child('${userCredential.user?.uid}.jpg');
-        await ref.putFile(image);
+        await ref.putFile(image as File);
         final url = await ref.getDownloadURL();
 
         final userData = {

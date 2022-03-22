@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:chat_app/widgets/pickers/user_image.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +7,7 @@ class AuthForm extends StatefulWidget {
     String email,
     String password,
     String username,
-    File image,
+    File? image,
     bool isLogin,
   ) submitForm;
   final bool isLoading;
@@ -51,7 +50,7 @@ class _AuthFormState extends State<AuthForm> {
         _userEmail.trim(),
         _userPassword.trim(),
         _userName.trim(),
-        _userImage as File,
+        _userImage == null ? null : _userImage as File,
         _isLogin,
       );
     }
@@ -72,6 +71,8 @@ class _AuthFormState extends State<AuthForm> {
                 TextFormField(
                   key: const ValueKey('email'),
                   keyboardType: TextInputType.emailAddress,
+                  autocorrect: false,
+                  textCapitalization: TextCapitalization.none,
                   decoration: const InputDecoration(labelText: 'Email Address'),
                   validator: (value) {
                     if (value == null ||
@@ -86,6 +87,8 @@ class _AuthFormState extends State<AuthForm> {
                 if (!_isLogin)
                   TextFormField(
                     key: const ValueKey('username'),
+                    autocorrect: true,
+                    textCapitalization: TextCapitalization.words,
                     decoration: const InputDecoration(labelText: 'Username'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
