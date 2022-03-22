@@ -25,6 +25,7 @@ class Messages extends StatelessWidget {
         return ListView.builder(
           itemBuilder: (_, index) => MessageBubble(
               message: docs[index]['text'],
+              username: docs[index]['username'],
               isMe: docs[index]['userId'] == user?.uid,
               key: ValueKey(docs[index].id)),
           itemCount: docs.length,
